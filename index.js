@@ -5,7 +5,7 @@ const port = 3000;
 app.get("/api/v1/messages", (req, res) => {
     res.json({
         status: "success",
-        message: "GET messages",
+        message: "GET all messages",
         data: [],
     });
 });
