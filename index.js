@@ -1,18 +1,21 @@
 const express = require("express");
+const mongoose = require("mongoose");
 const app = express();
 const port = 3000;
 
-// enable cors express
-const cors = require("cors");
-app.use(cors());
+// connect to mongodb
+mongoose.connect("mongodb://127.0.0.1:27017/messagesApi");
 
-app.get("/api/v1/messages", (req, res) => {
-    res.json({
-        status: "success",
-        message: "GET all messages",
-        data: [],
-    });
-});
+// check if connection works
+const db = mongoose.connection;
+db.on("error", console.error.bind(console, "connection error:"));
+
+// import routes
+const messagesRouter = require("./routes/api/v1/messages");
+app.use(express.json());
+
+// use routes
+app.use("/api/v1/messages", messagesRouter);
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
